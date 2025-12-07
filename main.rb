@@ -3,14 +3,16 @@ def randomize_code
 end
 
 def guess_code(string)
-  # build validator later
-
   string.chars("")
 end
 
-def return_hint(code, guess_array)
-  feedback = []
+def code_valid?(string)
+  return false if string.match(/[^1-6]/) || string.length != 4
 
+  true
+end
+
+def return_hint(code, guess_array)
   # Create a hash for the code on its creation that counts the amount of each #
   # [1, 1, 2, 2] => count = {1: 2, 2: 2}
   # Probably move this to initialization in board class later
@@ -18,7 +20,6 @@ def return_hint(code, guess_array)
   code.each { |num| code_count[num] ? code_count[num] += 1 : code_count[num] = 1 }
 
   matches = {}
-
   guess_array.each_index do |index|
     guess = guess_array[index]
     next unless code_count[guess]
@@ -31,7 +32,10 @@ def return_hint(code, guess_array)
     end
   end
 
+  feedback = []
   matches.each_value { |value| value.times { feedback.push("x") } }
 
   feedback
 end
+
+p code_valid?("")
