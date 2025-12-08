@@ -8,7 +8,11 @@ class Board
   end
 
   def guess_code(string)
-    string.chars("")
+    guess = string.chars
+    hint = return_hint(guess)
+    add_history(guess, hint)
+
+    puts "Hint: #{hint}"
   end
 
   def code_valid?(string)
@@ -17,21 +21,21 @@ class Board
     true
   end
 
-  def return_hint(code, guess_array)
+  def return_hint(guess_array)
+    feedback = []
     matches = {}
     guess_array.each_index do |index|
       guess = guess_array[index]
-      next unless code_count[guess]
+      next unless @code_count[guess]
 
-      matches[guess] = [guess_array.count(guess), code_count[guess]].min unless matches[guess]
+      matches[guess] = [guess_array.count(guess), @code_count[guess]].min unless matches[guess]
 
-      if code[index] == guess
+      if @code[index] == guess
         feedback.push("o")
         matches[guess] -= 1
       end
     end
 
-    feedback = []
     matches.each_value { |value| value.times { feedback.push("x") } }
 
     feedback
@@ -44,7 +48,8 @@ class Board
   private
 
   def randomize_code
-    Array.new(4).map { rand(1..6) }
+    arr = Array.new(4).map { rand(1..6) }
+    arr.map(&:to_s)
   end
 
   def count_code
@@ -55,6 +60,6 @@ class Board
   end
 
   def add_history(guess, hint)
-    history.push(guess, hint)
+    @history.push(guess, hint)
   end
 end
