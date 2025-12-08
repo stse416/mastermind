@@ -1,8 +1,8 @@
 class Board
   attr_reader :code
 
-  def initialize
-    @code = randomize_code
+  def initialize(code_breaker)
+    @code = create_code(code_breaker)
     @code_count = count_code
     @history = []
   end
@@ -59,6 +59,14 @@ class Board
   end
 
   private
+
+  def create_code(breaker)
+    return randomize_code if breaker == "computer"
+
+    puts "\nEnter your 4 digit code composed of the numbers 1-6"
+    input = gets.chomp
+    input.chars if code_valid?(input)
+  end
 
   def randomize_code
     arr = Array.new(4).map { rand(1..6) }

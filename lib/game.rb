@@ -4,13 +4,13 @@ class Game
   attr_reader :board
 
   def initialize
-    @board = Board.new
+    @code_breaker = human_or_computer
+    @board = Board.new(@code_breaker)
     @game_over = false
     @attempts = 0
   end
 
   def start_game
-    puts "Game Start!"
     start_turn while @game_over == false
   end
 
@@ -38,5 +38,14 @@ class Game
         board.guess_code(input)
       end
     end
+  end
+
+  def human_or_computer
+    puts "Game Start!
+    Press 1 to break a randomized code.
+    Press 2 to create a code for the computer to break"
+    return "human" if gets.chomp == "1"
+
+    "computer"
   end
 end
