@@ -11,7 +11,7 @@ class Game
   end
 
   def start_game
-    start_turn while @game_over == false
+    start_turn while @game_over == false if @code_breaker == "human"
   end
 
   private

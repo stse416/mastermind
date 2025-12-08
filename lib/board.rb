@@ -61,7 +61,7 @@ class Board
   private
 
   def create_code(breaker)
-    return randomize_code if breaker == "computer"
+    return randomize_code if breaker == "human"
 
     puts "\nEnter your 4 digit code composed of the numbers 1-6"
     input = gets.chomp
