@@ -6,6 +6,7 @@ class Game
   def initialize
     @board = Board.new
     @game_over = false
+    @attempts = 0
   end
 
   def start_game
@@ -16,20 +17,23 @@ class Game
   private
 
   def start_turn
-    puts "Input 4 digit guess or 'h' for history"
+    puts "\nInput 4 digit guess or 'h' for history"
     input = gets.chomp
 
-    if input.match?(/h/i) && input.length == 1
-      board.show_history
-    elsif board.code_valid?(input)
-      board.guess_code(input)
+    p board.code if input.match(/c/i) && input.length == 1 # Hacks for testing
+
+    if input.match(/h/i) && input.length == 1 then board.show_history
+    else
+      return unless board.code_valid?(input)
+
+      input = input.chars
+      if board.check_win?(input)
+        @game_over = true
+        puts "\nCorrect! You've broken the code in #{@attempts += 1} attempts!"
+      else
+        @attempts += 1
+        board.guess_code(input)
+      end
     end
-  end
-
-  def check_win?(guess)
-    return false unless code == guess
-
-    @game_over = true
-    true
   end
 end

@@ -7,8 +7,7 @@ class Board
     @history = []
   end
 
-  def guess_code(string)
-    guess = string.chars
+  def guess_code(guess)
     hint = return_hint(guess)
     add_history(guess, hint)
 
@@ -16,7 +15,10 @@ class Board
   end
 
   def code_valid?(string)
-    return false if string.match(/[^1-6]/) || string.length != 4
+    if string.match(/[^1-6]/) || string.length != 4
+      puts "Invalid entry."
+      return false
+    end
 
     true
   end
@@ -43,6 +45,12 @@ class Board
 
   def show_history
     puts @history
+  end
+
+  def check_win?(guess)
+    return false unless code == guess
+
+    true
   end
 
   private
