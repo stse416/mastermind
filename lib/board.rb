@@ -44,7 +44,11 @@ class Board
   end
 
   def show_history
-    puts @history
+    turn = 0
+    @history.each do |ele|
+      turn += 1
+      puts "#{turn}: #{ele[0].join(' ')} => #{ele[1].join(' ')}"
+    end
   end
 
   def check_win?(guess)
@@ -68,6 +72,6 @@ class Board
   end
 
   def add_history(guess, hint)
-    @history.push(guess, hint)
+    @history.push([guess, hint])
   end
 end
