@@ -1,3 +1,5 @@
+require_relative "game"
+
 class Board
   attr_reader :code
 
@@ -54,6 +56,7 @@ class Board
   def check_win?(guess)
     return false unless code == guess
 
+    add_history(guess, %w[o o o o])
     true
   end
 

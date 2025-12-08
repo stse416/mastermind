@@ -26,12 +26,15 @@ class Game
     else
       return unless board.code_valid?(input)
 
+      @attempts += 1
       input = input.chars
       if board.check_win?(input)
         @game_over = true
-        puts "\nCorrect! You've broken the code in #{@attempts += 1} attempts!"
+        puts "\nCorrect! You've broken the code #{board.code.join(' ')} in #{@attempts} attempts!"
+        puts "Attempt History:"
+        board.show_history
+
       else
-        @attempts += 1
         board.guess_code(input)
       end
     end
