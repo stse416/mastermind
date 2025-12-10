@@ -28,7 +28,7 @@ class Game
       return unless board.code_valid?(input)
 
       @attempts += 1
-      input = input.chars
+      input = input.chars.map(&:to_i)
       if board.check_win?(input)
         @game_over = true
         puts "\nCorrect! You've broken the code #{board.code.join(' ')} in #{@attempts} attempts!"

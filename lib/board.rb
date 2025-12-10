@@ -95,8 +95,7 @@ class Board
   end
 
   def randomize_code
-    arr = Array.new(4).map { rand(1..6) }
-    arr.map(&:to_s)
+    Array.new(4).map { rand(1..6) }
   end
 
   def count_code(arr)

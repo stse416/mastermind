@@ -5,6 +5,6 @@ class Computer
     else
       code = Array.new(4).map { rand(1..6) }
     end
-    code.map(&:to_s)
+    code
   end
 end
