@@ -1,32 +1,35 @@
 class Computer
+  attr_accessor :board
+
   def initialize
-    @prev_guess = nil
+    @board = nil
     @history = []
   end
 
-  def guess_code(prev_hint = nil)
-    if prev_hint
+  def guess_code
+    if @history.empty?
+      guess = Array.new(4).map { rand(1..6) }
+    else
+      prev_guess = @history[@history.length - 1][0]
+      prev_hint = @history[@history.length - 1][1]
       pool = []
       matches = 0
 
       prev_hint.each_with_index do |hint, index|
-        pool.push(@prev_guess[index]) if hint == "x"
+        pool.push(prev_guess[index]) if hint == "x"
         matches += 1 if hint == "o"
       end
 
-      code = pool.shuffle
-      code.insert(rand(0..code.length), rand(1..6)) while code.length + matches < 4
+      guess = pool.shuffle
+      guess.insert(rand(0..guess.length), rand(1..6)) while guess.length + matches < 4
 
       prev_hint.each_with_index do |hint, index|
-        code.insert(index, @prev_guess[index]) if hint == "o"
+        guess.insert(index, prev_guess[index]) if hint == "o"
       end
-    else
-      code = Array.new(4).map { rand(1..6) }
     end
 
-    @prev_guess = code
-    @history.push(code)
-    code
+    @history.push([guess, @board.return_comp_hint(guess)])
+    guess
   end
 
   def show_history

@@ -1,8 +1,8 @@
 class Board
   attr_reader :code
 
-  def initialize(code_breaker)
-    @code = create_code(code_breaker)
+  def initialize(human_or_comp)
+    @code = create_code(human_or_comp)
     @code_count = count_code(@code)
     @history = []
   end
@@ -48,17 +48,16 @@ class Board
     matches = {}
 
     guess_array.each_with_index do |guess, index|
-      unless code_count[guess]
+      unless @code_count[guess]
         feedback.push("b")
         next
       end
 
-      matches[guess] = [guess_array.count(guess), code_count[guess]].min unless matches[guess]
+      matches[guess] = [guess_array.count(guess), @code_count[guess]].min unless matches[guess]
 
       if code[index] == guess
         feedback.push("o")
-        matches[guess] -= 1
-      elsif matches[guess] > 0
+      elsif matches[guess] - @code_count[guess] > 0
         feedback.push("x")
         matches[guess] -= 1
       else
@@ -91,7 +90,7 @@ class Board
 
     puts "\nEnter your 4 digit code composed of the numbers 1-6"
     input = gets.chomp
-    input.chars if code_valid?(input)
+    input.to_i.digits.reverse if code_valid?(input)
   end
 
   def randomize_code
