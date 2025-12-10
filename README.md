@@ -6,6 +6,11 @@ https://www.theodinproject.com/lessons/ruby-mastermind
 array [1, 3, 1, 5]
 Blanks not allowed. duplicates allowed
 
+
+
+
+Notes:
+
 1. Computer randomizes code [1, 3, 4, 5]
 2. Player starts guessing, [6, 2, 5, 1]
     2a. Player is provided feedback based off their guess
@@ -22,14 +27,6 @@ Blanks not allowed. duplicates allowed
         - [1, 1, 2, 2](code) => [1, 1, 1, 2](guess) => [o, o, o] (feedback)
 
 3. Repeat step 2 until turn limit reached (or if no turn limit, player succeeds?)
-
-
-Some tests:
-puts "#{return_hint(%w[1 1 2 2], %w[1 1 1 2])} expected: [o, o, o]"
-puts "#{return_hint(%w[1 3 4 5], %w[6 2 5 1])} expected: [x, x]"
-puts "#{return_hint(%w[1 3 4 5], %w[1 5 2 6])} expected: [o, x]"
-puts "#{return_hint(%w[1 1 1 1], %w[2 3 4 5])} expected: []"
-puts "#{return_hint(%w[2 2 4 5], %w[2 1 5 4])} expected: [o, x, x]"
 
 
 Pseudo:
@@ -53,5 +50,23 @@ Pseudo:
   # 3. After all index. Add the remaining values for each key.
   #   - Push 'x' to feedback array for each.
 
+
+
+Return hint tests:
+puts "#{return_hint(%w[1 1 2 2], %w[1 1 1 2])} expected: [o, o, o]"
+puts "#{return_hint(%w[1 3 4 5], %w[6 2 5 1])} expected: [x, x]"
+puts "#{return_hint(%w[1 3 4 5], %w[1 5 2 6])} expected: [o, x]"
+puts "#{return_hint(%w[1 1 1 1], %w[2 3 4 5])} expected: []"
+puts "#{return_hint(%w[2 2 4 5], %w[2 1 5 4])} expected: [o, x, x]"
+
+
 Implementing cpu play:
   If you choose to modify the rules, you can provide the computer additional information about each guess. For example, you can start by having the computer guess randomly, but keep the ones that match exactly. You can add a little bit more intelligence to the computer player so that, if the computer has guessed the right color but the wrong position, its next guess will need to include that color somewhere.
+
+
+Comp hint tests:
+puts "#{return_comp_hint(%w[1 2 1 3], %w[1 1 2 3])} => [o x x o]"
+puts "#{return_comp_hint(%w[2 1 3 1], %w[1 1 2 3])} => [x o x x]"
+puts "#{return_comp_hint(%w[3 1 2 5], %w[1 1 3 5])} => [x o b o]"
+puts "#{return_comp_hint(%w[2 4 2 2], %w[5 2 2 4])} => [x x o b]"
+puts "#{return_comp_hint(%w[5 2 2 4], %w[2 4 2 2])} => [b x o x]"

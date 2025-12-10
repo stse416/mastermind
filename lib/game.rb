@@ -11,12 +11,13 @@ class Game
   end
 
   def start_game
-    start_turn while @game_over == false if @code_breaker == "human"
+    start_turn_human while @game_over == false if @code_breaker == "human"
+    start_turn_comp while @game_over == false if @code_breaker == "computer"
   end
 
   private
 
-  def start_turn
+  def start_turn_human
     puts "\nInput 4 digit guess or 'h' for history"
     input = gets.chomp
 
@@ -40,12 +41,15 @@ class Game
     end
   end
 
+  def start_turn_comp
+  end
+
   def human_or_computer
     puts "Game Start!
     Press 1 to break a randomized code.
     Press 2 to create a code for the computer to break"
     return "human" if gets.chomp == "1"
 
-    "computer"
+    Computer.new
   end
 end

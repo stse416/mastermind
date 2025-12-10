@@ -3,7 +3,7 @@ class Board
 
   def initialize(code_breaker)
     @code = create_code(code_breaker)
-    @code_count = count_code
+    @code_count = count_code(@code)
     @history = []
   end
 
@@ -26,8 +26,8 @@ class Board
   def return_hint(guess_array)
     feedback = []
     matches = {}
-    guess_array.each_index do |index|
-      guess = guess_array[index]
+
+    guess_array.each_with_index do |guess, index|
       next unless @code_count[guess]
 
       matches[guess] = [guess_array.count(guess), @code_count[guess]].min unless matches[guess]
@@ -39,6 +39,32 @@ class Board
     end
 
     matches.each_value { |value| value.times { feedback.push("x") } }
+
+    feedback
+  end
+
+  def return_comp_hint(guess_array)
+    feedback = []
+    matches = {}
+
+    guess_array.each_with_index do |guess, index|
+      unless code_count[guess]
+        feedback.push("b")
+        next
+      end
+
+      matches[guess] = [guess_array.count(guess), code_count[guess]].min unless matches[guess]
+
+      if code[index] == guess
+        feedback.push("o")
+        matches[guess] -= 1
+      elsif matches[guess] > 0
+        feedback.push("x")
+        matches[guess] -= 1
+      else
+        feedback.push("b")
+      end
+    end
 
     feedback
   end
@@ -73,9 +99,9 @@ class Board
     arr.map(&:to_s)
   end
 
-  def count_code
+  def count_code(arr)
     count = {}
-    code.each { |num| count[num] ? count[num] += 1 : count[num] = 1 }
+    arr.each { |num| count[num] ? count[num] += 1 : count[num] = 1 }
 
     count
   end
